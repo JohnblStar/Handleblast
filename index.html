@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Handleblast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Noto+Sans+KR:wght@400;700;900&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- 외부 라이브러리 (전역 Hands, supabase 제공) -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <div id="overlay-screen">
+    <section class="screen">
+      <div class="screen-top reveal">
+        <span class="eyebrow"><span class="num">SW WEEK</span>Hand Gesture Puzzle</span>
+        <span class="eyebrow">8 × 8 Grid</span>
+      </div>
+
+      <h2 class="hero-title">
+        <span class="line"><span>Handle</span></span>
+        <span class="line"><span class="accent">Blast</span></span>
+      </h2>
+
+      <p class="lead reveal d1">웹캠으로 손을 인식해 블록을 움직이고 설치합니다. 손을 <strong>펴면</strong> 블록이 따라오고, <strong>주먹을 쥐면</strong> 설치됩니다.</p>
+
+      <div id="gesture-hint" class="reveal d2">
+        <div class="hint">
+          <span class="hint-num">01</span>
+          <span class="hint-icon">🖐</span>
+          <span class="hint-text"><span class="hint-title">손 펴기</span><span class="hint-desc">블록 이동</span></span>
+        </div>
+        <div class="hint">
+          <span class="hint-num">02</span>
+          <span class="hint-icon">✊</span>
+          <span class="hint-text"><span class="hint-title">주먹 쥐기</span><span class="hint-desc">블록 설치</span></span>
+        </div>
+      </div>
+
+      <div class="reveal d3">
+        <div id="id-form">
+          <label class="field">
+            <span class="eyebrow"><span class="num">03</span>Student ID</span>
+            <input id="id-input" maxlength="15" placeholder="학번 입력" autocomplete="off" inputmode="numeric" />
+          </label>
+          <button class="btn" id="start-btn"><span>Start →</span><span>Start →</span></button>
+        </div>
+        <div id="id-msg"></div>
+      </div>
+
+      <div class="marquee reveal d3" aria-hidden="true">
+        <div class="marquee-track">
+          <span>Handleblast</span><span>Hand Control</span><span>Line Clear</span><span>Combo ×5</span>
+          <span>Handleblast</span><span>Hand Control</span><span>Line Clear</span><span>Combo ×5</span>
+          <span>Handleblast</span><span>Hand Control</span><span>Line Clear</span><span>Combo ×5</span>
+          <span>Handleblast</span><span>Hand Control</span><span>Line Clear</span><span>Combo ×5</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="score-popup"></div>
+
+  <div id="app">
+    <header id="header">
+      <div class="brand">
+        <span class="eyebrow"><span class="num">SW WEEK</span>Hand Control</span>
+        <h1>Handle<em>blast</em></h1>
+      </div>
+      <span id="status-pill">카메라 준비 중</span>
+      <div id="score-box">
+        <div class="stat">
+          <div class="stat-label">Level</div>
+          <span id="level-badge">LV.1</span>
+        </div>
+        <div class="stat" id="time-stat">
+          <div class="stat-label">Time</div>
+          <div class="stat-value" id="time-el">2:00</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Combo</div>
+          <div class="stat-value" id="combo-el">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Score</div>
+          <div class="stat-value is-primary" id="score-el">0</div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <aside id="side">
+        <div id="cam-panel">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="overlay"></canvas>
+          <span class="panel-tag top-left"><span class="live-dot"></span>Cam · Live</span>
+          <span class="panel-tag bottom-left">노란 점선 안에서 손을 움직이세요</span>
+        </div>
+
+        <div class="side-label eyebrow"><span class="num">NEXT</span>Blocks</div>
+        <div id="tray">
+          <div class="tray-slot" data-num="01"><canvas id="tray0" width="70" height="70"></canvas></div>
+          <div class="tray-slot" data-num="02"><canvas id="tray1" width="70" height="70"></canvas></div>
+          <div class="tray-slot" data-num="03"><canvas id="tray2" width="70" height="70"></canvas></div>
+        </div>
+
+        <div id="gesture-legend">
+          <div><span class="hint-num">🖐</span><span>손 펴기 — 블록 이동</span></div>
+          <div><span class="hint-num">✊</span><span>주먹 쥐기 — 설치</span></div>
+        </div>
+      </aside>
+
+      <div id="game-panel">
+        <div id="board-wrap">
+          <canvas id="board-canvas"></canvas>
+          <div id="hand-alert" role="status" aria-live="polite">
+            <span class="alert-icon">✋</span>
+            <span class="alert-title"></span>
+            <span class="alert-desc"></span>
+            <span class="alert-count"></span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
