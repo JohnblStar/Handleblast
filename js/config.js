@@ -1,8 +1,8 @@
 // ─── 게임/외부 서비스 설정 (값 변경은 여기서만) ───────────────
 
 // Supabase 대시보드 → Project Settings → API 에서 복사
-export const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co';
-export const SUPABASE_ANON_KEY = 'YOUR-ANON-KEY';
+export const SUPABASE_URL = 'https://dloaegqvyxwbnemioyan.supabase.co';
+export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRsb2FlZ3F2eXh3Ym5lbWlveWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5NTA2MTgsImV4cCI6MjEwNzUyNjYxOH0.TBwgVZb8DOTJ_f2UEG_wUtS6b3Zp0dpPiGJ-Qtahoak';
 
 export const COLS = 8, ROWS = 8;
 
