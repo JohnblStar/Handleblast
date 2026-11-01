@@ -14,6 +14,8 @@ create index if not exists rankings_score_idx on public.rankings (score desc);
 create index if not exists rankings_student_idx on public.rankings (student_id, score desc);
 
 -- anon key 로는 조회와 추가만 허용 (수정/삭제 불가)
+-- 최근 Supabase 프로젝트는 새 테이블 권한을 자동으로 주지 않으므로 직접 부여
+grant select, insert on public.rankings to anon;
 alter table public.rankings enable row level security;
 
 drop policy if exists "anon read"   on public.rankings;
